@@ -5,8 +5,8 @@ pragma solidity ^0.5.8;
 contract HDBRentalContract {
 
     // Parties involved
-    address public landlordAddress; // Ethereum address of the landlord
-    address public tenantAddress; // Ethereum address of the tenant
+    address public landlordAddress; 
+    address public tenantAddress; 
 
     // HDB Property Details
 	struct HDB {
