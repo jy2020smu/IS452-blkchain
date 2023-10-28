@@ -45,14 +45,13 @@ contract HDBRentalContract {
 
 
 
-// Rental status
-    bool public isLeaseActive; // True: not available False: available for rent
+
 
 
  
 	HDB public hdb; // instance of HDB struct
 	address payable public landlord; // wallet address of contract/property owner
-	uint private warningTime = 0; // timestamp when the tenant gets warned.
+	uint private warningTime = 0; // unix timestamp when the tenant gets warned.
 	mapping(string => bool) public months;
 	mapping(address => bool) public tenantRegistry; // storage for users other than owner registered as a prospect.
 	mapping(string => MonthlyRentStatus) public rentInStore; // storage for rental status
@@ -171,21 +170,20 @@ contract HDBRentalContract {
 		return true;
 	}
 
-
  // Function to end the lease
     function endLease() public {
         require(msg.sender == landlordAddress, "Only the landlord can end the lease");
-        require(isLeaseActive, "Lease is already inactive");
+        require(hdb.rented, "Lease is already inactive");
 
         // Additional logic for ending the lease (e.g., handle security deposit, update status, etc.)
 
-        isLeaseActive = false;
+       hdb.rented = false;
     }
 
 // Function to renew the lease
     function renewLease(uint newEndDate) view  public {
         require(msg.sender == tenantAddress, "Only the tenant can renew the lease");
-        require(isLeaseActive, "Lease must be active to renew");
+        require(hdb.rented, "Lease must be active to renew");
 
         // Update the lease end date
        newEndDate = newEndDate;
